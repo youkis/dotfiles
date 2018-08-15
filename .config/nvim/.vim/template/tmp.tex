@@ -1,0 +1,43 @@
+\documentclass[a4paper,dvipdfmx]{jsarticle}%,draft
+\usepackage[top=25truemm,bottom=25truemm,left=20truemm,right=20truemm]{geometry}%余白
+\usepackage{amsmath,amssymb}   %数式
+\usepackage[dvipdfmx]{graphicx}%図
+%\graphicspath{{./figs/}}
+\usepackage{bm}
+\usepackage{url}
+%\usepackage{ascmac}  %囲む
+
+\makeatletter
+\def\id#1{\def\@id{#1}}
+\def\department#1{\def\@department{#1}}
+\def\@maketitle{
+	\begin{center}
+		{\Large \@title \\}% 論文のタイトル部分
+		\vspace{1pt}
+	\end{center}
+	\begin{flushright}
+		\vspace{-2zh}
+		{\large \@author \\}% 氏名 
+		\vspace{1pt}
+		{\large \@date \\}	% 提出年月日部分	
+	\end{flushright}
+}
+\title {}
+\author{佐田 悠生}
+\date  {\today}
+
+\begin{document}
+\maketitle
+\section{概要}
+
+\section{結果}
+
+\section{考察}
+
+\begin{thebibliography}{9}
+		\addcontentsline{toc}{section}{\bibname}
+	\bibitem{ofdm}
+		Fundamentals of OFDM and Its Applications,
+		{\small \url{https://www.jstage.jst.go.jp/article/essfr/1/2/1_2_2_35/_pdf}} (2017-5-26参照).
+\end{thebibliography}
+\end{document}

@@ -1,0 +1,5 @@
+.DS_Store
+.vim/undofile/*
+.vim/dein
+.vim/repos
+.config/nvim/.vim/dein
