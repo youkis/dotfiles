@@ -3,3 +3,4 @@
 .vim/dein
 .vim/repos
 .config/nvim/.vim/dein
+.config/nvim/.vim/dein_vim8
