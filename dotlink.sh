@@ -3,6 +3,8 @@
 mkdir -p ~/.config
 lnks=(\
 	.config/nvim \
+	.vim \
+	.vimrc \
 	.zshrc \
 	.tmux.conf \
 	)

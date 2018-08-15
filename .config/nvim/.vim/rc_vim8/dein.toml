@@ -1,0 +1,31 @@
+[[plugins]]
+repo = 'Shougo/dein.vim'
+[[plugins]]
+repo='Shougo/denite.nvim'
+
+[[plugins]]
+repo = 'majutsushi/tagbar'
+[[plugins]]
+repo = 'vim-airline/vim-airline'
+[[plugins]]
+repo='scrooloose/nerdtree'
+[[plugins]]
+repo = 'kana/vim-submode'
+
+#quickrun コンパイル
+[[plugins]]
+repo='thinca/vim-quickrun'
+[[plugins]]
+repo='Shougo/vimproc.vim'
+build = 'make'
+
+#記号で囲む
+[[plugins]]
+repo='tpope/vim-surround'
+
+# git plugin
+[[plugins]]
+repo='tpope/vim-fugitive'
+
+[[plugins]]
+repo = 'petRUShka/vim-opencl'
