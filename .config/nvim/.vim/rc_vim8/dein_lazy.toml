@@ -1,0 +1,39 @@
+[[plugins]]
+repo = 'Shougo/deoplete.nvim'
+if = 'has("nvim")'
+on_i = 1
+
+[[plugins]]
+repo = 'zchee/deoplete-jedi'
+on_i = 1
+on_ft = 'python'
+
+[[plugins]]
+repo='roxma/nvim-yarp'
+on_i = 1
+[[plugins]]
+repo='roxma/vim-hug-neovim-rpc'
+on_i = 1
+
+
+#閉じタグ生成
+[[plugins]]
+repo='alvan/vim-closetag'
+on_ft=['html','php']
+
+#quickrun コンパイル
+[[plugins]]
+repo='thinca/vim-quickrun'
+#quickfix
+[[plugins]]
+repo='osyo-manga/unite-quickfix'
+
+#記号で囲む
+[[plugins]]
+repo='tpope/vim-surround'
+
+# tank history
+[[plugins]]
+repo = 'Shougo/neoyank.vim'
+on_path = '.*'
+on_i = 1
