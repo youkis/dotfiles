@@ -1,6 +1,5 @@
 [[plugins]]
 repo = 'Shougo/deoplete.nvim'
-if = 'has("nvim")'
 on_i = 1
 
 [[plugins]]
@@ -11,9 +10,11 @@ on_ft = 'python'
 [[plugins]]
 repo='roxma/nvim-yarp'
 on_i = 1
+if = 'has("nvim")'
 [[plugins]]
 repo='roxma/vim-hug-neovim-rpc'
 on_i = 1
+if = 'has("nvim")'
 
 
 #閉じタグ生成
