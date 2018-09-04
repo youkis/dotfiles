@@ -1,13 +1,14 @@
 # path zshenv
 case ${OSTYPE} in
 	linux*)
-		export PATH="$HOME/local/bin:$PATH"
-		export PATH="/usr/local/cuda-8.0/bin:$PATH"
-		export PATH="/usr/local/openmpi/bin:$PATH"
-		export LD_LIBRARY_PATH="/usr/local/openmpi/lib:$LD_LIBRARY_PATH"
-		export LD_LIBRARY_PATH="/usr/local/cuda-8.0/lib64:$LD_LIBRARY_PATH"
-		export LD_LIBRARY_PATH="/usr/local/lib/:$LD_LIBRARY_PATH"
-		export CPATH="/usr/local/include:$CPATH"
+    export PATH="$HOME/local/bin:$PATH"
+    export PATH="/usr/local/cuda/bin:$PATH"
+    export PATH="$HOME/local/openmpi/bin:$PATH"
+    export LD_LIBRARY_PATH="/usr/local/cuda/lib64:/usr/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH"
+    export LD_LIBRARY_PATH="/usr/local/lib/:$LD_LIBRARY_PATH"
+    export LD_LIBRARY_PATH="$HOME/local/openmpi/lib:$LD_LIBRARY_PATH"
+    export LD_LIBRARY_PATH="$HOME/local/lib:$LD_LIBRARY_PATH"
+    export CPATH="/usr/local/include:/usr/include:/usr/local/cuda/include:$CPATH"
 		;;
 	darwin*)
 		export PATH="/Applications/MATLAB_R2018a.app/bin:$PATH"
