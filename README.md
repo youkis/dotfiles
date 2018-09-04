@@ -27,6 +27,19 @@ echo 'eval "$(pyenv init - --no-rehash)"' > ~/.zshrc
 pyenv global 3.5.1
 pip install neovim jedi
 ```
+## install ctags (if needed)
+```
+sudo apt install ctags
+```
+or install from src
+```
+wget http://prdownloads.sourceforge.net/ctags/ctags-5.8.tar.gz
+tar zxf ctags-5.8.tar.gz
+cd ctags-5.8
+./configure --prefix=$HOME/local
+make
+sudo make install
+```
 
 ## download configs
 remove old neovim config files if it's existed.
