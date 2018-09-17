@@ -54,6 +54,7 @@ alias la='ls -1a'
 alias vi='nvim'
 alias tm='tmux'
 alias m4a2wav='afconvert -f WAVE -d LEI16'
+alias doc='docker-compose'
 case ${OSTYPE} in
 	darwin*)
 		alias brew="env PATH=${PATH//$(pyenv root)\/shims:/} brew"
