@@ -45,6 +45,19 @@ autocmd BufNewFile *.c   0r $HOME/.config/nvim/.vim/template/tmp.c
 "autocmd BufNewFile *.tex 0r $HOME/.config/nvim/.vim/template/tmp.tex
 autocmd BufNewFile *.plt 0r $HOME/.config/nvim/.vim/template/tmp.plt
 au BufRead,BufNewFile *.plt	setfiletype gnuplot " }}}
+" Terminal
+" enter terminal-job mode automatically
+if has('nvim')
+  autocmd WinEnter * if &buftype ==# 'terminal' | startinsert | endif
+  noremap  <C-k> :vsplit<CR><C-w>w:terminal<CR>:startinsert<CR>
+else
+  autocmd WinEnter * if &buftype ==# 'terminal' | normal i | endif
+  noremap  <C-k> :vsplit<CR><C-w>w:terminal<CR>:normal i<CR>
+endif
+
+noremap  <C-j> <C-w>w
+inoremap <C-j> <Esc><C-w>w
+tnoremap <C-j> <C-\><C-n><C-w>w
 " Functions
 "キーマッピング{{{
 nnoremap <F12> :w<CR>:QuickRun<CR>
