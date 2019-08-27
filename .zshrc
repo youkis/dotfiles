@@ -21,6 +21,7 @@ export PATH="/usr/local:$PATH"
 export PATH="/opt/local/sbin:$PATH"
 export PATH="/usr/local/sbin:$PATH"
 export PATH="$HOME/sh:$PATH"
+export PATH="$HOME/.pyenv/versions/3.5.2/bin:$PATH"
 
 # general {{{
 # prompt
@@ -53,11 +54,12 @@ alias ll='ls -l'
 alias la='ls -1a'
 alias vi='nvim'
 alias tm='tmux'
+alias tma='tmux a -t '
 alias m4a2wav='afconvert -f WAVE -d LEI16'
 alias doc='docker-compose'
 case ${OSTYPE} in
 	darwin*)
-		alias brew="env PATH=${PATH//$(pyenv root)\/shims:/} brew"
+		#alias brew="env PATH=${PATH//$(pyenv root)\/shims:/} brew"
 		alias chrome="open /Applications/Google\ Chrome.app/ --args --proxy-server=\"socks5://127.0.0.1:1080\""
 		alias time="/usr/bin/time"
 		;;
@@ -126,9 +128,4 @@ function peco-pkill() {
 }
 alias pk="peco-pkill"
 # }}}
-
-#pyenv
-export PYENV_ROOT="$HOME/.pyenv"
-export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init - --no-rehash)"
 
