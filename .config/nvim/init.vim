@@ -102,8 +102,7 @@ function! s:opencv()
 endfunction
 "}}}
 
-let g:python3_host_prog = expand('~/.pyenv/versions/anaconda3-4.1.0/bin/python')
-let g:python_host_prog = expand('~/.pyenv/versions/anaconda3-4.1.0/envs/py27con/bin/python')
+let g:python3_host_prog = expand('/usr/local/bin/python3.6')
 " Pulgins
 " conf dein{{{
 " インストールディレクトリ
@@ -178,23 +177,28 @@ let g:quickrun_config["gnuplot"] = {
 nnoremap <expr><silent> <C-c> quickrun#is_running() ? quickrun#sweep_sessions() : "\<C-c>"
 "}}}
 " conf denite{{{
-"C-N,C-Pで上下移動
-call denite#custom#map('insert', '<C-n>', '<denite:move_to_next_line>', 'noremap')
-call denite#custom#map('insert', '<C-p>', '<denite:move_to_previous_line>', 'noremap')
-call denite#custom#source(
-    \ 'file_rec', 'matchers', ['matcher_fuzzy', 'matcher_project_files', 'matcher_ignore_globs'])
-" 検索対象外のファイル指定
-call denite#custom#filter('matcher_ignore_globs', 'ignore_globs',
-    \ [ '.git/', '.ropeproject/', '__pycache__/',
-    \   'venv/', 'images/', '*.min.*', 'img/', 'fonts/'])
-" バッファ一覧
-noremap <C-P> :Denite -mode=normal buffer<CR>
-" ファイル一覧
-noremap <C-N> :Denite -mode=normal -buffer-name=file file<CR>
-" 最近使ったファイルの一覧
-noremap <C-Z> :Denite -mode=normal file_old<CR>
-"noremap <S-^Z> :Denite file_rec<CR>
-" sourcesを「今開いているファイルのディレクトリ」とする
+" Define mappings
+autocmd FileType denite call s:denite_my_settings()
+function! s:denite_my_settings() abort
+  nnoremap <silent><buffer><expr> <CR>
+  \ denite#do_map('do_action')
+  nnoremap <silent><buffer><expr> d
+  \ denite#do_map('do_action', 'delete')
+  nnoremap <silent><buffer><expr> p
+  \ denite#do_map('do_action', 'preview')
+  nnoremap <silent><buffer><expr> q
+  \ denite#do_map('quit')
+  nnoremap <silent><buffer><expr> i
+  \ denite#do_map('open_filter_buffer')
+  nnoremap <silent><buffer><expr> <Space>
+  \ denite#do_map('toggle_select').'j'
+endfunction
+" 1. buffer list
+" 2. file list on current dir
+" 3. recent files
+noremap <C-P> :Denite buffer<CR>
+noremap <C-N> :Denite -buffer-name=file file<CR>
+noremap <C-Z> :Denite file/old<CR>
 noremap :uff :<C-u>DeniteWithBufferDir file -buffer-name=file<CR>
 " }}}
 " submode pulgin for resize window {{{
@@ -212,6 +216,8 @@ let g:deoplete#omni_patterns = {}
 
 " conf nerdtree
 let g:NERDTreeWinPos = 'left'
+let g:NERDTreeShowBookmarks=1
+let g:NERDTreeDirArrows = 1
 " conf lose tag
 let g:closetag_filenames = "*.html,*.xhtml,*.phtml,*erb"
 "Tab補完の設定
@@ -220,26 +226,6 @@ inoremap <silent><expr><s-tab> pumvisible() ? "\<c-p>" : "\<s-tab>"
 augroup my_augroup
 	au FileType python setlocal completeopt-=preview  "別windowでhelpを表示しない
 augroup END
-" plugin for my mac
-if has("mac")
-" conf vim-latex{{{
-" コンパイル時に使用するコマンド
-set shellslash
-set grepprg=grep\ -nH\ $*
-let g:tex_flavor='latex'
-let g:Imap_UsePlaceHolders = 1
-let g:Imap_DeleteEmptyPlaceHolders = 1
-let g:Imap_StickyPlaceHolders = 0
-let g:Tex_DefaultTargetFormat = 'pdf'
-let g:Tex_MultipleCompileFormats='dvi,pdf'
-let g:Tex_FormatDependency_pdf = 'dvi,pdf'
-let g:Tex_FormatDependency_ps = 'dvi,ps'
-let g:Tex_CompileRule_pdf = 'dvipdfmx $*.dvi'
-let g:Tex_BibtexFlavor = 'jbibtex'
-let g:Tex_UseEditorSettingInDVIViewer = 1
-let g:Tex_ViewRule_pdf = 'Skim'
-" }}}
-endif
 
 " color{{{
 if !has("gui_running")
@@ -255,47 +241,3 @@ if !has("gui_running")
 endif
 "}}}
 filetype plugin indent on
-
-"removed
-"" conf neocomplete{{{
-"" Vim起動時にneocompleteを有効にする
-"let g:neocomplete#enable_at_startup = 1
-"" smartcase有効化. 大文字が入力されるまで大文字小文字の区別を無視する
-"let g:neocomplete#enable_smart_case = 1
-"" 3文字以上の単語に対して補完を有効にする
-"let g:neocomplete#min_keyword_length = 3
-"" 区切り文字まで補完する
-"let g:neocomplete#enable_auto_delimiter = 1
-"" 1文字目の入力から補完のポップアップを表示
-"let g:neocomplete#auto_completion_start_length = 1
-"" バックスペースで補完のポップアップを閉じる
-"inoremap <expr><BS> neocomplete#smart_close_popup()."<C-h>"
-"" エンターキーで補完候補の確定. スニペットの展開もエンターキーで確定・・・・・・②
-"imap <expr><CR> neosnippet#expandable() ? "<Plug>(neosnippet_expand_or_jump)" : pumvisible() ? "<C-y>" : "<CR>"
-"" タブキーで補完候補の選択. スニペット内のジャンプもタブキーでジャンプ・・・・・・③
-"imap <expr><TAB> pumvisible() ? "<C-n>" : neosnippet#jumpable() ? "<Plug>(neosnippet_expand_or_jump)" : "<TAB>"
-""}}}
-"" conf vimtex{{{
-"let g:vimtex_latexmk_continuous = 1
-"let g:vimtex_latexmk_background = 1
-"let g:vimtex_fold_enabled = 1
-"let g:vimtex_view_general_viewer = '/Applications/Skim.app/Contents/SharedSupport/displayline'
-"let g:vimtex_view_general_options = '@line @pdf @tex'
-" }}}
-" conf nerdtree {{{
-let g:NERDTreeShowBookmarks=1
-let g:NERDTreeDirArrows = 1
-" }}}
-"" conf Unit.vim{{{
-"" バッファ一覧
-"noremap <C-P> :Unite buffer<CR>
-"" ファイル一覧
-"noremap <C-N> :Unite -buffer-name=file file<CR>
-"" 最近使ったファイルの一覧
-"noremap <C-Z> :Unite file_mru<CR>
-"" sourcesを「今開いているファイルのディレクトリ」とする
-"noremap :uff :<C-u>UniteWithBufferDir file -buffer-name=file<CR>
-"" ESCキーを2回押すと終了する
-"au FileType unite nnoremap <silent> <buffer> <ESC><ESC> :q<CR>
-"au FileType unite inoremap <silent> <buffer> <ESC><ESC> <ESC>:q<CR>
-""}}}
