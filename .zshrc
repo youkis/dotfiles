@@ -12,8 +12,6 @@ case ${OSTYPE} in
 		;;
 	darwin*)
 		export PATH="/Applications/MATLAB_R2018a.app/bin:$PATH"
-		source ~/google-cloud-sdk/path.zsh.inc
-		source ~/google-cloud-sdk/completion.zsh.inc
 		;;
 esac
 export PATH="/usr/local/bin:$PATH"
@@ -59,7 +57,6 @@ alias m4a2wav='afconvert -f WAVE -d LEI16'
 alias doc='docker-compose'
 case ${OSTYPE} in
 	darwin*)
-		#alias brew="env PATH=${PATH//$(pyenv root)\/shims:/} brew"
 		alias chrome="open /Applications/Google\ Chrome.app/ --args --proxy-server=\"socks5://127.0.0.1:1080\""
 		alias time="/usr/bin/time"
 		;;
