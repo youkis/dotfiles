@@ -3,6 +3,71 @@ repo = 'Shougo/dein.vim'
 [[plugins]]
 repo='Shougo/denite.nvim'
 if = 'has("nvim")'
+hook_add = '''
+" conf denite{{{
+" Define mappings
+autocmd FileType denite call s:denite_my_settings()
+function! s:denite_my_settings() abort
+  nnoremap <silent><buffer><expr> <CR>
+  \ denite#do_map('do_action')
+  nnoremap <silent><buffer><expr> d
+  \ denite#do_map('do_action', 'delete')
+  nnoremap <silent><buffer><expr> p
+  \ denite#do_map('do_action', 'preview')
+  nnoremap <silent><buffer><expr> q
+  \ denite#do_map('quit')
+  nnoremap <silent><buffer><expr> i
+  \ denite#do_map('open_filter_buffer')
+  nnoremap <silent><buffer><expr> <Space>
+  \ denite#do_map('toggle_select').'j'
+endfunction
+
+autocmd FileType denite-filter call s:denite_filter_my_settings()
+function! s:denite_filter_my_settings() abort
+  imap <silent><buffer> <C-o> <Plug>(denite_filter_quit)
+endfunction
+
+" Change file/rec command.
+call denite#custom#var('file/rec', 'command',
+\ ['rg', '--files', '--glob', '!.git'])
+" Ripgrep command on grep source
+call denite#custom#var('grep', 'command', ['rg'])
+call denite#custom#var('grep', 'default_opts',
+    \ ['-i', '--vimgrep', '--no-heading'])
+call denite#custom#var('grep', 'recursive_opts', [])
+call denite#custom#var('grep', 'pattern_opt', ['--regexp'])
+call denite#custom#var('grep', 'separator', ['--'])
+call denite#custom#var('grep', 'final_opts', [])
+
+" Define alias
+call denite#custom#alias('source', 'file/rec/git', 'file/rec')
+call denite#custom#var('file/rec/git', 'command',
+      \ ['git', 'ls-files', '-co', '--exclude-standard'])
+
+" Change ignore_globs
+call denite#custom#filter('matcher/ignore_globs', 'ignore_globs',
+      \ [ '.git/', '.ropeproject/', '__pycache__/',
+      \   'venv/', 'images/', '*.min.*', 'img/', 'fonts/'])
+
+" For python script scantree.py
+call denite#custom#var('file/rec', 'command',
+\ ['scantree.py', '--path', ':directory'])
+
+" 1. buffer list
+noremap <C-P> :Denite buffer<CR>
+" 2. file list on current dir
+" only current path
+"noremap <C-N> :Denite -buffer-name=file file<CR>
+" full depth
+noremap <C-N> :Denite file/rec<CR>
+" 3. recent files
+noremap <C-Z> :Denite file/old<CR>
+" 4. find
+noremap <C-L> :Denite line<CR>
+noremap <C-F> :Denite grep<CR>
+noremap :uff :<C-u>DeniteWithBufferDir file -buffer-name=file<CR>
+" }}}
+'''
 
 [[plugins]]
 repo = 'majutsushi/tagbar'
@@ -10,12 +75,69 @@ repo = 'majutsushi/tagbar'
 repo = 'vim-airline/vim-airline'
 [[plugins]]
 repo='scrooloose/nerdtree'
+hook_add = '''
+let g:NERDTreeWinPos = 'left'
+let g:NERDTreeShowBookmarks=1
+let g:NERDTreeDirArrows = 1
+'''
 [[plugins]]
 repo = 'kana/vim-submode'
+hook_add = '''
+" submode pulgin for resize window {{{
+call submode#enter_with('winsize', 'n', '', '<C-w>>', '<C-w>>')
+call submode#enter_with('winsize', 'n', '', '<C-w><', '<C-w><')
+call submode#enter_with('winsize', 'n', '', '<C-w>+', '<C-w>+')
+call submode#enter_with('winsize', 'n', '', '<C-w>-', '<C-w>-')
+call submode#map('winsize', 'n', '', '>', '<C-w>>')
+call submode#map('winsize', 'n', '', '<', '<C-w><')
+call submode#map('winsize', 'n', '', '+', '<C-w>+')
+call submode#map('winsize', 'n', '', '-', '<C-w>-')
+"}}}
+'''
 
 #quickrun コンパイル
 [[plugins]]
 repo='thinca/vim-quickrun'
+hook_add='''
+nnoremap <F12> :w<CR>:QuickRun<CR>
+nnoremap <F11> :COMPILE<CR>
+" conf quickrun.vim{{{
+if !exists("g:quickrun_config")
+	let g:quickrun_config={}
+endif
+let g:quickrun_config["_"]={
+      \ 'runner'    : 'vimproc',
+			\ "runner/vimproc/updatetime" : 60,
+			\ "outputter" : "error",
+			\ "outputter/error/success" : "buffer",
+			\ "outputter/error/error"   : "quickfix",
+			\ "outputter/buffer/split"  : "botright 5sp",
+			\ "outputter/buffer/into"   : 0,
+			\ "outputter/buffer/close_on_empty" : 1}
+let g:quickrun_config["c"]          = { "cmdopt" : "-lm" }
+let g:quickrun_config["cpp"]        = { "cmdopt" : "-lm" }
+let g:quickrun_config["opencv/cpp"] = { "command": "clang++","exec": ["%c %o %s -o %s:p:r", "%s:p:r %a"],"cmdopt" : "`pkg-config --cflags opencv --libs opencv`","tempfile": "%{tempname()}.cpp","hook/sweep/files": ["%S:p:r"],}
+let g:quickrun_config["opencv/c"]   = { "command": "clang"  ,"exec": ["%c %o %s -o %s:p:r", "%s:p:r %a"],"cmdopt" : "`pkg-config --cflags opencv --libs opencv`","tempfile": "%{tempname()}.cpp","hook/sweep/files": ["%S:p:r"],}
+let g:quickrun_config["html"]       = { "command": "open","exec": ["%c %s"]}
+let g:quickrun_config["asm"]        = {
+			\ "command"         : "nasm",
+			\ "exec"            : ["%c %o %s","ld %s:p:r.o -o %s:p:r.out","%s:p:r.out"],
+			\ "cmdopt"          : "-f macho","tempfile": "%{tempname()}.asm",
+			\ "hook/sweep/files": ["%S:p:r.o","%S:p:r.out"]}
+let g:quickrun_config["gnuplot"] = {
+			\ "command"         : "gnuplot",
+			\ "exec"            : ["%c -c %s","open %s:p:r.eps"]}
+"let g:quickrun_config["tex"] = {
+"			\ "command"         : "latexmk",
+"			\ "outputter/error/success" : "null",
+"			\ "cmdopt"          : "-pv",
+"			\ "hook/sweep/files": ["%S:p:r.aux","%S:p:r.bbl","%S:p:r.blg","%S:p:r.dvi","%S:p:r.fdb_latexmk","%S:p:r.fls","%S:p:r.log","%S:p:r.out"],
+"			\ "exec"            : "%c %o %s"}
+" wしたらquickrun実行
+"autocmd BufWritePost,FileWritePost *.tex QuickRun tex
+nnoremap <expr><silent> <C-c> quickrun#is_running() ? quickrun#sweep_sessions() : "\<C-c>"
+"}}}
+'''
 [[plugins]]
 repo='Shougo/vimproc.vim'
 build = 'make'
