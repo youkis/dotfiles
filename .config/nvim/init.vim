@@ -13,7 +13,8 @@ set scrolloff=5                 "スクロールする時に下が見えるよ�
 set nowritebackup               "バックアップファイルを作らない
 set nobackup                    "バックアップをしない
 set backspace=indent,eol,start  "バックスペースで各種消せるようにする
-set clipboard+=unnamed          "OSのクリップボードを使う
+"set clipboard+=unnamed          "OSのクリップボードを使う
+set clipboard=unnamedplus
 set number                      "行番号を表示
 set noruler                     "右下に表示される行・列の番号を非表示する
 set matchpairs& matchpairs+=<:> "対応括弧に<と>のペアを追加
@@ -55,6 +56,7 @@ else
   noremap  <C-k> :vsplit<CR><C-w>w:terminal<CR>:normal i<CR>
 endif
 
+nnoremap ; :
 noremap  <C-j> <C-w>w
 inoremap <C-j> <Esc><C-w>w
 tnoremap <C-j> <C-\><C-n><C-w>w
@@ -102,7 +104,7 @@ function! s:opencv()
 endfunction
 "}}}
 
-let g:python3_host_prog = expand('/usr/local/bin/python3.6')
+let g:python3_host_prog = expand('/usr/bin/python3')
 " Pulgins
 " conf dein{{{
 " インストールディレクトリ
@@ -193,12 +195,48 @@ function! s:denite_my_settings() abort
   nnoremap <silent><buffer><expr> <Space>
   \ denite#do_map('toggle_select').'j'
 endfunction
+
+autocmd FileType denite-filter call s:denite_filter_my_settings()
+function! s:denite_filter_my_settings() abort
+  imap <silent><buffer> <C-o> <Plug>(denite_filter_quit)
+endfunction
+
+" Change file/rec command.
+call denite#custom#var('file/rec', 'command',
+\ ['rg', '--files', '--glob', '!.git'])
+" Ripgrep command on grep source
+call denite#custom#var('grep', 'command', ['rg'])
+call denite#custom#var('grep', 'default_opts',
+    \ ['-i', '--vimgrep', '--no-heading'])
+call denite#custom#var('grep', 'recursive_opts', [])
+call denite#custom#var('grep', 'pattern_opt', ['--regexp'])
+call denite#custom#var('grep', 'separator', ['--'])
+call denite#custom#var('grep', 'final_opts', [])
+
+" Define alias
+call denite#custom#alias('source', 'file/rec/git', 'file/rec')
+call denite#custom#var('file/rec/git', 'command',
+      \ ['git', 'ls-files', '-co', '--exclude-standard'])
+
+call denite#custom#alias('source', 'file/rec/py', 'file/rec')
+call denite#custom#var('file/rec/py', 'command',
+\ ['scantree.py', '--path', ':directory'])
+
+" Change ignore_globs
+call denite#custom#filter('matcher/ignore_globs', 'ignore_globs',
+      \ [ '.git/', '.ropeproject/', '__pycache__/',
+      \   'venv/', 'images/', '*.min.*', 'img/', 'fonts/'])
 " 1. buffer list
 " 2. file list on current dir
 " 3. recent files
 noremap <C-P> :Denite buffer<CR>
-noremap <C-N> :Denite -buffer-name=file file<CR>
+" only current path
+"noremap <C-N> :Denite -buffer-name=file file<CR>
+" full depth
+noremap <C-N> :Denite file/rec<CR>
 noremap <C-Z> :Denite file/old<CR>
+noremap <C-L> :Denite line<CR>
+noremap <C-F> :Denite grep<CR>
 noremap :uff :<C-u>DeniteWithBufferDir file -buffer-name=file<CR>
 " }}}
 " submode pulgin for resize window {{{
