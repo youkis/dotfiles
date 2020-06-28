@@ -226,15 +226,21 @@ call denite#custom#var('file/rec/py', 'command',
 call denite#custom#filter('matcher/ignore_globs', 'ignore_globs',
       \ [ '.git/', '.ropeproject/', '__pycache__/',
       \   'venv/', 'images/', '*.min.*', 'img/', 'fonts/'])
+
+" For python script scantree.py
+call denite#custom#var('file/rec', 'command',
+\ ['scantree.py', '--path', ':directory'])
+
 " 1. buffer list
-" 2. file list on current dir
-" 3. recent files
 noremap <C-P> :Denite buffer<CR>
+" 2. file list on current dir
 " only current path
 "noremap <C-N> :Denite -buffer-name=file file<CR>
 " full depth
 noremap <C-N> :Denite file/rec<CR>
+" 3. recent files
 noremap <C-Z> :Denite file/old<CR>
+" 4. find
 noremap <C-L> :Denite line<CR>
 noremap <C-F> :Denite grep<CR>
 noremap :uff :<C-u>DeniteWithBufferDir file -buffer-name=file<CR>
