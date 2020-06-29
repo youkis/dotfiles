@@ -24,7 +24,7 @@ endfunction
 
 autocmd FileType denite-filter call s:denite_filter_my_settings()
 function! s:denite_filter_my_settings() abort
-  imap <silent><buffer> <C-o> <Plug>(denite_filter_quit)
+  imap <silent><buffer> <C-c> <Plug>(denite_filter_quit)
 endfunction
 
 " Change file/rec command.
@@ -66,6 +66,20 @@ noremap <C-Z> :Denite file/old<CR>
 noremap <C-L> :Denite line<CR>
 noremap <C-F> :Denite grep<CR>
 noremap :uff :<C-u>DeniteWithBufferDir file -buffer-name=file<CR>
+" Change default action. use floating
+let s:denite_win_width_percent = 0.85
+let s:denite_win_height_percent = 0.7
+let s:denite_default_options = {
+    \ 'split': 'floating',
+    \ 'winwidth': float2nr(&columns * s:denite_win_width_percent),
+    \ 'wincol': float2nr((&columns - (&columns * s:denite_win_width_percent)) / 2),
+    \ 'winheight': float2nr(&lines * s:denite_win_height_percent),
+    \ 'winrow': float2nr((&lines - (&lines * s:denite_win_height_percent)) / 2),
+    \ 'highlight_filter_background': 'DeniteFilter',
+    \ 'prompt': '$ ',
+    "\ 'start_filter': v:true,
+    \ }
+call denite#custom#option('default', s:denite_default_options)
 " }}}
 '''
 
