@@ -57,7 +57,10 @@ else
 endif
 
 "キーマッピング{{{
-nnoremap ; :
+noremap ; :
+noremap : ;
+noremap! ; :
+noremap! : ;
 noremap  <C-j> <C-w>w
 inoremap <C-j> <Esc><C-w>w
 tnoremap <C-j> <C-\><C-n><C-w>w
