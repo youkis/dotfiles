@@ -166,3 +166,19 @@ repo='tpope/vim-fugitive'
 
 [[plugins]]
 repo = 'petRUShka/vim-opencl'
+
+[[plugins]]
+repo = 'Shougo/deoplete.nvim'
+#hook_post_add = '''
+hook_add = '''
+let g:deoplete#enable_at_startup = 1
+let g:deoplete#omni_patterns = {}
+'''
+on_i = 1
+#if = 'has("nvim")'
+#let g:deoplete#omni_patterns = {}
+
+[[plugins]]
+repo = 'zchee/deoplete-jedi'
+on_i = 1
+#on_ft = 'python'

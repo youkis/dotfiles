@@ -1,18 +1,4 @@
 [[plugins]]
-repo = 'Shougo/deoplete.nvim'
-if = 'has("nvim")'
-on_i = 1
-add_hook='''
-let g:deoplete#enable_at_startup = 1
-let g:deoplete#omni_patterns = {}
-'''
-
-[[plugins]]
-repo = 'zchee/deoplete-jedi'
-on_i = 1
-on_ft = 'python'
-
-[[plugins]]
 repo='roxma/nvim-yarp'
 on_i = 1
 [[plugins]]
