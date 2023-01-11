@@ -7,6 +7,8 @@ lnks=(\
 	.vimrc \
 	.zshrc \
 	.tmux.conf \
+	.gitconfig \
+	.gitignore_global \
 	)
 for lnk in ${lnks[@]}
 do

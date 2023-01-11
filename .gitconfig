@@ -1,0 +1,13 @@
+[color]
+	branch = auto
+	diff = auto
+	status = auto
+[core]
+	editor = nvim
+[alias]
+	st = status
+	b = branch
+	co = checkout
+	cm = commit
+[user]
+	name = Youki Sada
